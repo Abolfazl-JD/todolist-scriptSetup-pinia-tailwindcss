@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .md-picture-light {
+    background-image: url('./images/bg-desktop-dark.jpg');
+  }
+
+  .sm-picture-light {
+    background-image: url('./images/bg-mobile-dark.jpg');
+  }
+
+  .md-picture-dark {
+    background-image: url('./images/bg-desktop-light.jpg');
+  }
+
+  .sm-picture-dark{
+    background-image: url('./images/bg-mobile-light.jpg');
+  }
+
+  /* ... */
+}
