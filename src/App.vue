@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import {todoListData} from './stores/data'
+
+const todolistStore = todoListData()
 
 const darkmode = ref(false)
+
 </script>
 
 <template>
