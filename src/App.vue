@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import {todoListData} from './stores/data'
 
 const todolistStore = todoListData()
 
 const darkmode = ref(false)
+
+onMounted(async() => {
+  await todolistStore.saveTodoListData()
+})
 
 </script>
 
