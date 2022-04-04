@@ -9,6 +9,17 @@ export const todoListData = defineStore({
   }),
   getters: {},
   actions: {
+    createNewTodo(todoTitle: string) {
+      const newTodoItem: TodoItem = {
+        title: todoTitle,
+        completed: false,
+        id : this.todolist.length + 1
+      }
+      this.todolist.push(newTodoItem)
+      this.saveData(newTodoItem)
+    },
+
+    // pwa methods
     async getDatabase() : Promise<IDBDatabase> {
       return new Promise((resolve, reject) => {
         if (this.database) {
@@ -43,8 +54,8 @@ export const todoListData = defineStore({
           const store = transaction.objectStore('todos')
 
           let todolist : TodoItem[] = [] 
-          store.openCursor().onsuccess = () => {
-            const cursor = store.openCursor().result
+          store.openCursor().onsuccess = (event: any) => {
+            const cursor = event.target.result
             if (cursor) {
               const workTodo : TodoItem = cursor.value
               todolist.push(workTodo)

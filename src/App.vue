@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import {todoListData} from './stores/data'
+import { onMounted, ref } from 'vue'
 
+import {todoListData} from './stores/data'
 const todolistStore = todoListData()
 
 const darkmode = ref(false)
@@ -10,12 +10,17 @@ onMounted(async() => {
   await todolistStore.saveTodoListData()
 })
 
+const newTodoName = ref('')
+const makeNewTodo = () => {
+  todolistStore.createNewTodo(newTodoName.value.trim())
+  newTodoName.value = ''
+}
 </script>
 
 <template>
   <div :class="darkmode ? 'dark' : ''">
     <header class="w-screen h-screen bg-white dark:bg-gray-900">
-      <div class="dark:sm-picture-dark dark:md:md-picture-dark sm-picture-light md:md-picture-light  w-screen bg-no-repeat bg-cover flex items-center justify-center h-80 pt-48 md:h-80 md:pt-56">
+      <div class="dark:sm-picture-dark dark:md:md-picture-dark sm-picture-light md:md-picture-light  w-screen bg-no-repeat bg-cover flex items-center justify-center h-80 pt-48 md:h-80 md:pb-10">
         <div class="w-5/6 sm:w-2/3 md:w-1/2 lg:w-1/3 text-white text-3xl">
           <div class="flex justify-between w-full">
             <h1 class="font-bold tracking-[15px]">TODOLIST</h1>
@@ -59,12 +64,17 @@ onMounted(async() => {
             </svg>
             <input 
               type="text" 
-              placeholder="create a new todo ..." 
+              placeholder="create a new todo ..."
+              v-model="newTodoName"
+              @keyup.enter="makeNewTodo" 
               class="text-[16px] grow ml-2 py-2 focus:outline-0 text-black dark:bg-slate-800 dark:text-gray-200 placeholder:text-gray-400 rounded">
           </div>
           <div class="todolist-items w-full bg-white dark:bg-slate-800 rounded-md shadow shadow-gray-400">
 
-            <div class="flex justify-between py-5 px-3 group border-b border-b-gray-400 dark:border-b-gray-700">
+            <div 
+              v-for="workTodo of todolistStore.todolist"
+              :key="workTodo.id"
+              class="flex justify-between py-5 px-3 group border-b border-b-gray-400 dark:border-b-gray-700">
               <div class="flex items-center gap-5">
                 <div class="w-6 h-6 p-3 rounded-full border border-solid flex items-center justify-center bg-gradient-to-r from-[#4fc6e4] to-[#601286]">
                   <div class="flex flex-col justify-center items-center h-full  text-white rounded-full p-[10px] bg-gradient-to-r from-[#4fc6e4] to-[#601286]">
@@ -79,19 +89,19 @@ onMounted(async() => {
                     </svg>
                   </div>
                 </div>
-                <h3 class="text-gray-700 dark:text-gray-200 text-xl">todolist item</h3>
+                <h3 class="text-gray-700 dark:text-gray-200 text-xl">{{ workTodo.title }}</h3>
               </div>
               <div class="hidden items-center gap-2 group-hover:flex">
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
-                  class="h-7 w-7 text-gray-500 dark:text-gray-300" 
+                  class="h-7 w-7 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" 
                   viewBox="0 0 20 20" 
                   fill="currentColor">
                   <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                 </svg>
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
-                  class="h-7 w-7 text-gray-500 dark:text-gray-300" 
+                  class="h-7 w-7 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" 
                   viewBox="0 0 20 20" 
                   fill="currentColor">
                   <path 
@@ -101,7 +111,9 @@ onMounted(async() => {
               </div>
             </div>
 
-            <div class="flex justify-center md:justify-between text-xs py-3 px-4 cursor-pointer">
+            <div 
+              v-show="todolistStore.todolist.length"
+              class="flex justify-center md:justify-between text-xs py-3 px-4 cursor-pointer">
               <p class="text-gray-600 dark:text-gray-300 hidden md:block">4 items left</p>
               <ul class="text-gray-600 dark:text-gray-200 flex gap-3">
                 <li class="font-bold">All</li>
