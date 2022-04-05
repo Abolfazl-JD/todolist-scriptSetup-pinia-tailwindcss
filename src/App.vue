@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import Todo from './components/Todo.vue'
 
 import {todoListData} from './stores/data'
@@ -13,16 +13,27 @@ onMounted(async() => {
 
 const newTodoName = ref('')
 const makeNewTodo = () => {
-  todolistStore.createNewTodo(newTodoName.value.trim())
-  newTodoName.value = ''
+  if(newTodoName.value){
+    todolistStore.createNewTodo(newTodoName.value.trim())
+    newTodoName.value = ''
+  }
 }
+
+const listVisibility = ref('all')
+const filteredTodolist = computed(() => {
+  if(listVisibility.value === 'all') return todolistStore.todolist
+  else if(listVisibility.value === 'active') return todolistStore.leftTodos
+  else{
+    return todolistStore.todolist.filter(todo => todo.completed)
+  }
+})
 </script>
 
 <template>
   <div :class="darkmode ? 'dark' : ''">
-    <header class="w-screen h-screen bg-white dark:bg-gray-900">
-      <div class="dark:sm-picture-dark dark:md:md-picture-dark sm-picture-light md:md-picture-light  w-screen bg-no-repeat bg-cover flex items-center justify-center h-80 pt-48 md:h-80 md:pb-10">
-        <div class="w-5/6 sm:w-2/3 md:w-1/2 lg:w-1/3 text-white text-3xl">
+    <header class="w-screen h-screen bg-white dark:bg-black">
+      <div class="dark:sm-picture-dark dark:md:md-picture-dark sm-picture-light md:md-picture-light  w-screen bg-no-repeat bg-cover flex items-center justify-center h-80 pt-40 md:h-80 md:pb-10">
+        <div class="w-5/6 sm:w-2/3 md:w-7/12 lg:w-2/5 xl:w-1/3 text-white text-3xl absolute top-28">
           <div class="flex justify-between w-full">
             <h1 class="font-bold tracking-[15px]">TODOLIST</h1>
             <!-- dark mode switcher -->
@@ -54,7 +65,8 @@ const makeNewTodo = () => {
             </svg>
           </div>
           <div class="flex bg-white dark:bg-slate-800 pl-2 mt-10 mb-8 rounded-md items-center">
-            <svg 
+            <svg
+              @click="todolistStore.checkAllTodos" 
               xmlns="http://www.w3.org/2000/svg" 
               class="h-5 w-5 text-gray-500 dark:text-gray-200" 
               viewBox="0 0 20 20"
@@ -72,19 +84,38 @@ const makeNewTodo = () => {
           </div>
           <div class="todolist-items w-full bg-white dark:bg-slate-800 rounded-md shadow shadow-gray-400">
             <Todo 
-             v-for="workTodo of todolistStore.todolist"
+             v-for="workTodo of filteredTodolist"
             :key="workTodo.id"
             :workTodo="workTodo"/>
             <div 
               v-show="todolistStore.todolist.length"
               class="flex justify-center md:justify-between text-xs py-3 px-4 cursor-pointer">
-              <p class="text-gray-600 dark:text-gray-300 hidden md:block">4 items left</p>
+              <p class="text-gray-600 dark:text-gray-300 hidden md:block">{{ todolistStore.leftTodos.length }} {{ todolistStore.paralize}} left</p>
               <ul class="text-gray-600 dark:text-gray-200 flex gap-3">
-                <li class="font-bold">All</li>
-                <li class="font-bold">Active</li>
-                <li class="font-bold">Completed</li>
+                <li 
+                class="font-bold"
+                @click="listVisibility = 'all'" 
+                :class="listVisibility === 'all' ? 'text-blue-500' : ''">
+                  All
+                </li>
+                <li 
+                class="font-bold"
+                @click="listVisibility = 'active'" 
+                :class="listVisibility === 'active' ? 'text-blue-500' : ''">
+                  Active
+                </li>
+                <li 
+                class="font-bold"
+                @click="listVisibility = 'completed'" 
+                :class="listVisibility === 'completed' ? 'text-blue-500' : ''">
+                  Completed
+                </li>
               </ul>
-              <p class="text-gray-600 dark:text-gray-300 hidden md:block">clear colmpleted</p>
+              <p 
+              class="text-gray-600 dark:text-gray-300 hidden md:block"
+              @click="todolistStore.clearDoneItems">
+                clear colmpleted
+              </p>
             </div>
           </div>
         </div>

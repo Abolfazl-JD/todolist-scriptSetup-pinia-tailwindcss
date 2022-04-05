@@ -7,16 +7,64 @@ export const todoListData = defineStore({
     database: null as null | IDBDatabase,
     todolist : [] as TodoItem[]
   }),
-  getters: {},
+  getters: {
+    leftTodos : (state) => state.todolist.filter(todo => !todo.completed),
+    paralize() : 'items' | 'item' {
+      return this.leftTodos.length === 1 ? 'item' : 'items'
+    }
+  },
   actions: {
     createNewTodo(todoTitle: string) {
       const newTodoItem: TodoItem = {
         title: todoTitle,
         completed: false,
-        id : this.todolist.length + 1
+        id : this.todolist.length
       }
       this.todolist.push(newTodoItem)
       this.saveData(newTodoItem)
+    },
+
+    toggleCompleted(todo: TodoItem) {
+      todo.completed = !todo.completed
+      this.saveData({
+        ...todo
+      })
+    },
+
+    editWorkTodo(todo : TodoItem, newTodoTitle : string) {
+      todo.title = newTodoTitle
+      this.saveData({
+        ...todo
+      })
+    },
+
+    removeTodo(deletedItem : TodoItem) {
+      const index = this.todolist.indexOf(deletedItem)
+      this.todolist.splice(index, 1)
+      this.deleteTodo(deletedItem)
+      this.sortDatabaseIds()
+    },
+
+    clearDoneItems() {
+      this.todolist = this.todolist.filter(todo => {
+        if (todo.completed) {
+          this.deleteTodo(todo)
+        }
+        else {
+          return todo
+        }
+      })
+      this.sortDatabaseIds()
+    },
+
+    checkAllTodos() {
+      this.todolist = this.todolist.map(todo => {
+        if (!todo.completed) {
+          todo.completed = true
+          this.saveData({...todo})
+        }
+        return todo
+      })
     },
 
     // pwa methods
@@ -94,6 +142,38 @@ export const todoListData = defineStore({
         }
 
       })
+    },
+
+    async deleteTodo(todo: TodoItem) {
+      this.database = await this.getDatabase()
+
+      return new Promise((resolve, reject) => {
+        if (this.database) {
+          const transaction = this.database.transaction('todos', 'readwrite')
+          const store = transaction.objectStore('todos')
+          store.delete(todo.id)
+
+          transaction.oncomplete = () => {
+            resolve('item has been successfully deleted')
+          }
+          transaction.onerror = (event) => {
+            reject(event)
+          }
+        }
+      })
+    },
+
+    sortDatabaseIds() {
+      for (let i = 0; i < this.todolist.length; i++) {
+        const workTodo = this.todolist[i]
+        if (workTodo.id !== i) {
+          this.deleteTodo(workTodo)
+          this.saveData({
+            ...workTodo,
+            id : i
+          })
+        }
+      }
     }
   }
 })
