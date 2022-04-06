@@ -61,9 +61,9 @@ const editWorkTodoTitle = () => {
         @keyup.enter="editWorkTodoTitle" 
         @keyup.esc="editEnability = false" 
         v-model="editedTodoTitle" 
-        class="grow text-lg h-full text-gray-800 px-2 py-1 rounded  focus:outline focus:outline-[3px] focus:outline-[#703f89] focus:bg-gray-200 dark:focus:bg-slate-700 dark:bg-slate-800 dark:text-gray-200">
+        class="grow text-lg w-full h-full text-gray-800 px-2 py-1 rounded  focus:outline focus:outline-[3px] focus:outline-[#703f89] focus:bg-gray-200 dark:focus:bg-slate-700 dark:bg-slate-800 dark:text-gray-200">
         </div>
-        <div class="hidden items-center gap-2 group-hover:flex">
+        <div class="flex md:hidden items-center gap-2 group-hover:flex">
         <svg
             @click="enableEditTodo" 
             xmlns="http://www.w3.org/2000/svg" 
