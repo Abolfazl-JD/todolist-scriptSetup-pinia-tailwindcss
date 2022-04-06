@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -10,7 +9,8 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],  
+      includeAssets: ['favicon.svg'],
+      base : '/',
       manifest: {
         name: 'Jalil todolist',
         short_name: 'todolist',
@@ -18,26 +18,32 @@ export default defineConfig({
         theme_color: '#ffffff',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: 'pwa-192x192.png', // <== don't add slash, for testing
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'pwa-512x512.png', // <== don't remove slash, for testing
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'pwa-512x512.png', // <== don't add slash, for testing
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable',
-          }
-        ]
+          },
+        ],
       },
       workbox: {
         sourcemap: true 
-      }, 
+      },
+      devOptions: {
+        enabled: process.env.SW_DEV === 'true',
+        /* when using generateSW the PWA plugin will switch to classic */
+        type: 'module',
+        navigateFallback: 'index.html',
+      },
     }),
   ],
   resolve: {
@@ -46,3 +52,4 @@ export default defineConfig({
     }
   }
 })
+
