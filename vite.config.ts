@@ -12,7 +12,7 @@ export default defineConfig({
       base: "/",
       srcDir: "src",
       filename: "sw.ts",
-      includeAssets: ["/favicon.png"],
+      includeAssets: ["/favicon.png", "robots.txt"],
       strategies: "injectManifest",
       manifest: {
         name: "JALIL TODOLIST",
