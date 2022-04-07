@@ -15,8 +15,8 @@ export default defineConfig({
       includeAssets: ["/favicon.png"],
       strategies: "injectManifest",
       manifest: {
-        name: "Test Project",
-        short_name: "Test",
+        name: "JALIL TODOLIST",
+        short_name: "TODOLIST",
         theme_color: "#ffffff",
         start_url: "/",
         display: "standalone",
