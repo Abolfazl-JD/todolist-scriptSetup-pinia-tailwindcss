@@ -1,7 +1,14 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-  "lib": ["ESNext", "DOM", "WebWorker"],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "test",
+    "test.ts",
+    "**/*.spec.ts",
+    "**/*.worker.ts"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
@@ -9,7 +16,8 @@
     },
     "types": [
       "vite-plugin-pwa/client"
-    ]
+    ],
+    "lib": ["ESNext", "DOM", "WebWorker"],
   },
 
   "references": [

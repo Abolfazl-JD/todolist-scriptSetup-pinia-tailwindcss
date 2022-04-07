@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
 import Todo from './components/Todo.vue'
+import ReloadPwaVue from './components/ReloadPwa.vue'
 
 import {todoListData} from './stores/data'
 const todolistStore = todoListData()
@@ -30,6 +31,7 @@ const filteredTodolist = computed(() => {
 </script>
 
 <template>
+  <ReloadPwaVue />
   <div :class="darkmode ? 'dark' : ''">
     <header class="w-screen h-screen bg-white dark:bg-black">
       <div class="dark:sm-picture-dark dark:md:md-picture-dark sm-picture-light md:md-picture-light  w-screen bg-no-repeat bg-cover flex items-center justify-center h-80 pt-40 md:h-80 md:pb-10">
