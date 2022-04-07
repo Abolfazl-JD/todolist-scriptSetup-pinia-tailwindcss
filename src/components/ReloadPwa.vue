@@ -21,8 +21,10 @@ const updateSW = async () => {
       bg-pink-900
       text-white text-sm
       px-6
-      py-2
+      pt-2
+      pb-3
       justify-between
+      items-center
       align-middle
     "
     role="alert"

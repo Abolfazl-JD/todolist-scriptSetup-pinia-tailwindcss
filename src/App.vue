@@ -82,7 +82,7 @@ const filteredTodolist = computed(() => {
               placeholder="create a new todo ..."
               v-model="newTodoName"
               @keyup.enter="makeNewTodo" 
-              class="text-[16px] grow ml-2 py-2 focus:outline-0 text-black dark:bg-slate-800 dark:text-gray-200 placeholder:text-gray-400 rounded">
+              class="text-[16px] grow ml-2 py-2 focus:outline-0 text-black dark:bg-slate-800 dark:text-gray-200 placeholder:text-gray-400 rounded-lg">
           </div>
           <div class="todolist-items w-full bg-white dark:bg-slate-800 rounded-md shadow shadow-gray-400">
             <Todo 
@@ -91,9 +91,9 @@ const filteredTodolist = computed(() => {
             :workTodo="workTodo"/>
             <div 
               v-show="todolistStore.todolist.length"
-              class="flex justify-center md:justify-between text-xs py-3 px-4 cursor-pointer">
-              <p class="text-gray-600 dark:text-gray-300 hidden md:block">{{ todolistStore.leftTodos.length }} {{ todolistStore.paralize}} left</p>
-              <ul class="text-gray-600 dark:text-gray-200 flex gap-3">
+              class="flex justify-between text-xs py-3 px-4 cursor-pointer">
+              <p class="text-gray-600 dark:text-gray-300 order-2 md:order-1">{{ todolistStore.leftTodos.length }} {{ todolistStore.paralize}} left</p>
+              <ul class="text-gray-600 dark:text-gray-200 flex gap-3 order-1 md:order-2">
                 <li 
                 class="font-bold"
                 @click="listVisibility = 'all'" 
@@ -114,7 +114,7 @@ const filteredTodolist = computed(() => {
                 </li>
               </ul>
               <p 
-              class="text-gray-600 dark:text-gray-300 hidden md:block"
+              class="text-gray-600 dark:text-gray-300 hidden md:block order-3"
               @click="todolistStore.clearDoneItems">
                 clear colmpleted
               </p>
