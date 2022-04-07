@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      mode: "development",
+      mode: "production",
       base: "/",
       srcDir: "src",
       filename: "sw.ts",
@@ -17,6 +17,7 @@ export default defineConfig({
       manifest: {
         name: "JALIL TODOLIST",
         short_name: "TODOLIST",
+        description: 'vue vite app with new scriptSetup and pinia with tailwindcss',
         theme_color: "#ffffff",
         start_url: "/",
         display: "standalone",
