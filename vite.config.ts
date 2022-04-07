@@ -42,7 +42,7 @@ export default defineConfig({
         ],
       },
       injectManifest: {
-        globPatterns: ["assets/*"],
+        globPatterns: ["assets/*", "**/*.{js,css,html}"],
       } 
     }),,
   ],
