@@ -41,10 +41,9 @@ export default defineConfig({
           },
         ],
       },
-      workbox: {
-        sourcemap : true,
+      injectManifest: {
         globPatterns: ["assets/*"],
-      },
+      } 
     }),,
   ],
   resolve: {
