@@ -18,7 +18,7 @@ const updateSW = async () => {
     class="
       flex flex-wrap
       md:flex-nowrap
-      bg-pink-900
+      bg-purple-900
       text-white text-sm
       px-6
       py-2
@@ -45,12 +45,12 @@ const updateSW = async () => {
           leading-none
           transition-colors
           duration-150
-          bg-pink-900
+          bg-purple-900
           border border-white
           rounded
           sm:w-auto
-          active:bg-pink-600
-          hover:bg-pink-700
+          active:bg-purple-600
+          hover:bg-purple-700
           focus:outline-none focus:shadow-outline-purple
           mr-4
         "
@@ -67,12 +67,12 @@ const updateSW = async () => {
           leading-none
           transition-colors
           duration-150
-          bg-pink-900
+          bg-purple-900
           border border-white
           rounded
           sm:w-auto
-          active:bg-pink-600
-          hover:bg-pink-700
+          active:bg-purple-600
+          hover:bg-purple-700
           focus:outline-none focus:shadow-outline-purple
         "
       >
