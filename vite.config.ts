@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      mode: "production",
+      mode: "development",
       base: "/",
       srcDir: "src",
       filename: "sw.ts",
