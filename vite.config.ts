@@ -42,15 +42,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: [
-          // all packaged resources are stored here
-          "assets/*",
-          // add HTML and other resources for the root directory
-          "*.{svg,png,jpg}",
-          "*.html",
-          "manifest.webmanifest",
-          // be careful, not to add sw.js
-        ],
+        sourcemap : true,
+        globPatterns: ["assets/*"],
       },
     }),,
   ],
