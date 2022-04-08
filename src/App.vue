@@ -7,7 +7,7 @@ import ReloadPwaVue from './components/ReloadPwa.vue'
 import {todoListData} from './stores/data'
 const todolistStore = todoListData()
 
-const theme = useStorage<boolean>('theme', true)
+const darkmode = useStorage<boolean>('darkmode', true)
 
 onMounted(async() => {
   await todolistStore.saveTodoListData()
@@ -34,7 +34,7 @@ const filteredTodolist = computed(() => {
 
 <template>
   <ReloadPwaVue />
-  <div :class="theme ? 'dark' : ''">
+  <div :class="darkmode ? 'dark' : ''">
     <div class="w-screen h-screen bg-white dark:bg-black relative">
       <div class="dark:md-picture-dark sm-picture-light md:md-picture-light  w-screen bg-no-repeat bg-cover flex items-center justify-center h-80 pt-40 md:h-80 md:pb-10">
         <div class="w-5/6 sm:w-2/3 md:w-7/12 lg:w-2/5 xl:w-1/3 text-white text-3xl absolute z-10 top-20">
@@ -43,8 +43,8 @@ const filteredTodolist = computed(() => {
               <h1 class="font-bold tracking-[15px]">TODOLIST</h1>
               <!-- dark mode switcher -->
               <svg
-                v-if="!theme"
-                @click="theme = true" 
+                v-if="!darkmode"
+                @click="darkmode = true" 
                 xmlns="http://www.w3.org/2000/svg" 
                 class="h-7 w-7 text-amber-300" 
                 fill="none" 
@@ -59,7 +59,7 @@ const filteredTodolist = computed(() => {
 
               <svg
                 v-else
-                @click="theme = false" 
+                @click="darkmode = false" 
                 xmlns="http://www.w3.org/2000/svg" 
                 class="h-7 w-7 text-amber-400" 
                 viewBox="0 0 20 20" 
