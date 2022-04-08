@@ -7,7 +7,6 @@ import {todoListData} from './stores/data'
 const todolistStore = todoListData()
 
 const darkmode = ref(false)
-const displayFooter = ref(true)
 
 onMounted(async() => {
   await todolistStore.saveTodoListData()
@@ -18,7 +17,6 @@ const makeNewTodo = () => {
   if(newTodoName.value){
     todolistStore.createNewTodo(newTodoName.value.trim())
     newTodoName.value = ''
-    displayFooter.value = true
   }
 }
 
@@ -85,8 +83,6 @@ const filteredTodolist = computed(() => {
                 type="text" 
                 placeholder="create a new todo ..."
                 v-model="newTodoName"
-                @blur="displayFooter = true"
-                @focus="displayFooter = false"
                 @keyup.enter="makeNewTodo" 
                 class="text-[16px] grow ml-2 py-2 focus:outline-0 text-black dark:bg-slate-800 dark:text-gray-200 placeholder:text-gray-400 rounded-lg">
             </div>
@@ -131,9 +127,7 @@ const filteredTodolist = computed(() => {
           </main>
         </div>
       </div>
-      <footer 
-      v-show="displayFooter"
-      class="text-center absolute w-full bottom-5 pt-2">
+      <footer class="text-center absolute w-full bottom-5 pt-2">
         <p 
         v-show="todolistStore.todolist.length"
         class=" text-gray-700 text-sm lg:text-[16px] dark:text-gray-400">DRAG and DROP the items to sort TODOLIST</p>
