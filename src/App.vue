@@ -36,7 +36,7 @@ const filteredTodolist = computed(() => {
   <div :class="darkmode ? 'dark' : ''">
     <div class="w-screen h-screen bg-white dark:bg-black relative">
       <div class="dark:md-picture-dark sm-picture-light md:md-picture-light  w-screen bg-no-repeat bg-cover flex items-center justify-center h-80 pt-40 md:h-80 md:pb-10">
-        <div class="w-5/6 sm:w-2/3 md:w-7/12 lg:w-2/5 xl:w-1/3 text-white text-3xl absolute z-10 top-28">
+        <div class="w-5/6 sm:w-2/3 md:w-7/12 lg:w-2/5 xl:w-1/3 text-white text-3xl absolute z-10 top-20">
           <header>
             <div class="flex justify-between w-full">
               <h1 class="font-bold tracking-[15px]">TODOLIST</h1>
