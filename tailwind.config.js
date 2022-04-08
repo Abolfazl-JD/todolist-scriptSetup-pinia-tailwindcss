@@ -5,6 +5,7 @@ module.exports = {
   ],
   darkMode: 'class',
   variants: {
+      scrollbar: ['rounded'],
     extend: {
         display: ["group-hover"],
     },
@@ -12,5 +13,7 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+],
 }
