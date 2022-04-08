@@ -67,6 +67,15 @@ export const todoListData = defineStore({
       })
     },
 
+    changeItem(chosenTodo : TodoItem) {
+      let selectedItem = this.todolist.find(todo => todo.id === chosenTodo.id)
+      if (selectedItem) {
+        selectedItem.title = chosenTodo.title
+        selectedItem.completed = chosenTodo.completed
+        this.saveData({...chosenTodo})
+      }
+    },
+
     // pwa methods
     async getDatabase() : Promise<IDBDatabase> {
       return new Promise((resolve, reject) => {

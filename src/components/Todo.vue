@@ -31,10 +31,46 @@ const editWorkTodoTitle = () => {
     }
     editEnability.value = false
 }
+
+// Drag and Drop API methods
+const pickUpTask = (e: DragEvent) => {
+    if(e.dataTransfer){
+        e.dataTransfer.effectAllowed = 'move'
+        e.dataTransfer.dropEffect = 'move'
+
+        e.dataTransfer.setData('from-task-id', String(props.workTodo.id))
+        e.dataTransfer.setData('from-task-name', props.workTodo.title)
+        e.dataTransfer.setData('from-task-done', String(props.workTodo.completed))   
+    }
+}
+
+const moveTask = (e: DragEvent) => {
+    if(e.dataTransfer){
+        const fromTaskId = Number(e.dataTransfer.getData('from-task-id'))
+        const fromTaskName = e.dataTransfer.getData('from-task-name')
+        const fromTaskCompleted: boolean = eval(e.dataTransfer.getData('from-task-done'))
+
+        todoListStore.changeItem({
+            title : props.workTodo.title,
+            id : fromTaskId,
+            completed : props.workTodo.completed
+        })
+        todoListStore.changeItem({
+          title: fromTaskName,
+          id: props.workTodo.id,
+          completed: fromTaskCompleted,
+        })
+    }
+}
 </script>
 
 <template>
-    <div 
+    <div
+        draggable="true"
+        @dragstart="pickUpTask($event)"
+        @drop="moveTask($event)"
+        @dragenter.prevent
+        @dragover.prevent 
         class="flex justify-between py-5 px-2 md:px-3 group border-b border-b-gray-400 dark:border-b-gray-700 gap-4">
         <div class="flex items-center gap-3 md:gap-5">
         <div 

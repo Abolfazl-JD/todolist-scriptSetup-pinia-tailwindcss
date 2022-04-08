@@ -120,6 +120,11 @@ const filteredTodolist = computed(() => {
               </p>
             </div>
           </div>
+          <p class="text-center block mt-16 text-gray-700 text-lg dark:text-gray-400">DRAG and DROP the items to sort TODOLIST</p>
+          <p class="text-center block mt-6 text-purple-500 text-sm ">
+            Designed by 
+            <a href="https://github.com/abolfazl-hue" target="blank" class="font-bold">Abolfazl Jalildoost</a>
+          </p>  
         </div>
       </div>
     </header>
