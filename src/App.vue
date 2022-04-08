@@ -80,14 +80,15 @@ const filteredTodolist = computed(() => {
                   d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
               </svg>
               <input 
-                type="text" 
+                type="text"
+                maxlength="20" 
                 placeholder="create a new todo ..."
                 v-model="newTodoName"
                 @keyup.enter="makeNewTodo" 
                 class="text-[16px] grow ml-2 py-2 focus:outline-0 text-black dark:bg-slate-800 dark:text-gray-200 placeholder:text-gray-400 rounded-lg">
             </div>
           </header>
-          <main class="h-[316px] rounded overflow-auto snap-y snap-mandatory scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-600 dark:scrollbar-thumb-gray-300 dark:hover:scrollbar-thumb-gray-200  scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
+          <main class="h-[316px] shadow shadow-gray-400 rounded overflow-auto snap-y snap-mandatory scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-600 dark:scrollbar-thumb-gray-300 dark:hover:scrollbar-thumb-gray-200  scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
             <div class="todolist-items w-full bg-white dark:bg-slate-800 rounded-md shadow shadow-gray-400 dark:shadow-slate-600">
               <Todo 
               v-for="workTodo of filteredTodolist"

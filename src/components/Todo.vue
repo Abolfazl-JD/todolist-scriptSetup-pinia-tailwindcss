@@ -98,6 +98,7 @@ const moveTask = (e: DragEvent) => {
         <input 
         v-else 
         type="text"
+        maxlength="20"
         ref="todoTitleInput"
         @blur="editWorkTodoTitle"
         @keyup.enter="editWorkTodoTitle" 
