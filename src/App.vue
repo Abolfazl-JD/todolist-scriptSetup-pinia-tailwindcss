@@ -86,15 +86,15 @@ const filteredTodolist = computed(() => {
                 class="text-[16px] grow ml-2 py-2 focus:outline-0 text-black dark:bg-slate-800 dark:text-gray-200 placeholder:text-gray-400 rounded-lg">
             </div>
           </header>
-          <main>
-            <div class="todolist-items w-full bg-white dark:bg-slate-800 rounded-md shadow shadow-gray-400">
+          <main class="h-[316px] overflow-auto">
+            <div class="todolist-items w-full bg-white dark:bg-slate-800 rounded-md shadow shadow-gray-400 dark:shadow-slate-600">
               <Todo 
               v-for="workTodo of filteredTodolist"
               :key="workTodo.id"
               :workTodo="workTodo"/>
               <div 
                 v-show="todolistStore.todolist.length"
-                class="flex justify-between text-xs py-3 px-4 cursor-pointer">
+                class="flex justify-between text-xs py-3 px-4 cursor-pointer sticky bottom-0 bg-slate-800">
                 <p class="text-gray-600 dark:text-gray-300 order-2 md:order-1">{{ todolistStore.leftTodos.length }} {{ todolistStore.paralize}} left</p>
                 <ul class="text-gray-600 dark:text-gray-200 flex gap-3 order-1 md:order-2">
                   <li 
@@ -126,11 +126,11 @@ const filteredTodolist = computed(() => {
           </main>
         </div>
       </div>
-      <footer class="text-center mt-16 absolute w-full bottom-5">
+      <footer class="text-center absolute w-full bottom-5 pt-2">
         <p 
         v-show="todolistStore.todolist.length"
-        class=" text-gray-700 text-sm md:text-[16px] dark:text-gray-400">DRAG and DROP the items to sort TODOLIST</p>
-        <p class="mt-6 text-purple-500 text-xs md:text-sm dark:text-purple-600 ">
+        class=" text-gray-700 text-sm lg:text-[16px] dark:text-gray-400">DRAG and DROP the items to sort TODOLIST</p>
+        <p class="mt-4 text-purple-500 text-xs lg:text-sm dark:text-purple-600 ">
           Designed by 
           <a href="https://github.com/abolfazl-hue" target="blank" class="font-bold">Abolfazl Jalildoost</a>
         </p> 
