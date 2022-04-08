@@ -28,6 +28,7 @@ const filteredTodolist = computed(() => {
     return todolistStore.todolist.filter(todo => todo.completed)
   }
 })
+
 </script>
 
 <template>
