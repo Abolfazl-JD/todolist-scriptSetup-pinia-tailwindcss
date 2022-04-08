@@ -86,7 +86,7 @@ const filteredTodolist = computed(() => {
                 class="text-[16px] grow ml-2 py-2 focus:outline-0 text-black dark:bg-slate-800 dark:text-gray-200 placeholder:text-gray-400 rounded-lg">
             </div>
           </header>
-          <main class="h-[316px] overflow-auto scrollbar-thin scrollbar-track-gray-400 scrollbar-thumb-gray-700 hover:scrollbar-thumb-gray-800 dark:scrollbar-track-gray-600 dark:scrollbar-thumb-gray-300 dark:hover:scrollbar-thumb-gray-200  scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
+          <main class="h-[316px] overflow-auto snap-y snap-mandatory scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-600 dark:scrollbar-thumb-gray-300 dark:hover:scrollbar-thumb-gray-200  scrollbar-thumb-rounded-full scrollbar-track-rounded-full">
             <div class="todolist-items w-full bg-white dark:bg-slate-800 rounded-md shadow shadow-gray-400 dark:shadow-slate-600">
               <Todo 
               v-for="workTodo of filteredTodolist"

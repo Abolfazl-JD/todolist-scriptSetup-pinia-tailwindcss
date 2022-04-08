@@ -71,7 +71,7 @@ const moveTask = (e: DragEvent) => {
         @drop="moveTask($event)"
         @dragenter.prevent
         @dragover.prevent 
-        class="flex justify-between py-5 px-2 md:px-3 group border-b border-b-gray-400 dark:border-b-gray-700 gap-4">
+        class="flex justify-between py-5 px-2 snap-always snap-start md:px-3 group border-b border-b-gray-400 dark:border-b-gray-700 gap-4">
         <div class="flex items-center gap-3 md:gap-5">
         <div 
             @click="todoListStore.toggleCompleted(workTodo)"
