@@ -85,6 +85,7 @@ const filteredTodolist = computed(() => {
                 type="text" 
                 placeholder="create a new todo ..."
                 v-model="newTodoName"
+                @blur="displayFooter = true"
                 @focus="displayFooter = false"
                 @keyup.enter="makeNewTodo" 
                 class="text-[16px] grow ml-2 py-2 focus:outline-0 text-black dark:bg-slate-800 dark:text-gray-200 placeholder:text-gray-400 rounded-lg">
