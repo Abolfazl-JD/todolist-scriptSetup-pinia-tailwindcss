@@ -130,7 +130,7 @@ const filteredTodolist = computed(() => {
       <footer class="text-center absolute w-full bottom-5 pt-2">
         <p 
         v-show="todolistStore.todolist.length"
-        class=" text-gray-700 text-sm lg:text-[16px] dark:text-gray-400">DRAG and DROP the items to sort TODOLIST</p>
+        class=" text-gray-700 text-sm lg:text-[16px] hidden md:block dark:text-gray-400">DRAG and DROP the items to sort TODOLIST</p>
         <p class="mt-4 text-purple-500 text-xs lg:text-sm dark:text-purple-600 ">
           Designed by 
           <a href="https://github.com/abolfazl-hue" target="blank" class="font-bold">Abolfazl Jalildoost</a>
