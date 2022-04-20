@@ -3,14 +3,87 @@ import { onMounted, ref, computed } from "vue"
 import { useStorage } from "@vueuse/core"
 import Todo from "./components/Todo.vue"
 import ReloadPwaVue from "./components/ReloadPwa.vue"
-
 import { todoListData } from "./stores/data"
+import gsap from "gsap"
+import { ScrollToPlugin, Draggable } from "gsap/all"
+gsap.registerPlugin(ScrollToPlugin)
+
 const todolistStore = todoListData()
 
 const darkmode = useStorage<boolean>("darkmode", true)
 
 onMounted(async () => {
   await todolistStore.saveTodoListData()
+
+  const tl = gsap.timeline()
+  tl.to(".heading-title", {
+    duration: 1,
+    opacity: 1,
+    x: 0,
+    ease: "easeout",
+  })
+  tl.from(
+    ".theme-icon",
+    {
+      duration: 1,
+      opacity: 1,
+      x: 100,
+      ease: "bounce.out",
+    },
+    "<"
+  )
+  tl.to(
+    ".createTodo",
+    {
+      duration: 1,
+      opacity: 1,
+      scale: 1,
+      ease: "bounce.out",
+    },
+    "<.3"
+  )
+  tl.to(
+    ".mainbox",
+    {
+      duration: 1,
+      opacity: 1,
+      y: 0,
+      ease: "easein",
+    },
+    "<.7"
+  )
+  tl.from(
+    ".worksTodo",
+    {
+      duration: 1,
+      opacity: 0,
+      x: -100,
+      ease: "easeout",
+      stagger: 0.2,
+    },
+    "<.5"
+  )
+  tl.from(
+    ".leftItems",
+    {
+      duration: 1,
+      opacity: 0,
+      x: -100,
+      ease: "easeout",
+    },
+    "<.5"
+  )
+  tl.from(
+    ".listOptions",
+    {
+      duration: 0.9,
+      opacity: 0,
+      y: 100,
+      ease: "power1",
+    },
+    "<"
+  )
+  tl.to(".mainbox", { duration: 1.4, scrollTo: { y: "max" } }, "<.5")
 })
 
 const newTodoName = ref("")
@@ -18,6 +91,7 @@ const makeNewTodo = () => {
   if (newTodoName.value) {
     todolistStore.createNewTodo(newTodoName.value.trim())
     newTodoName.value = ""
+    gsap.to(".mainbox", { duration: 1, scrollTo: { y: "max" } })
   }
 }
 
@@ -43,13 +117,17 @@ const filteredTodolist = computed(() => {
         >
           <header>
             <div class="flex justify-between w-full">
-              <h1 class="font-bold tracking-[15px]">TODOLIST</h1>
+              <h1
+                class="font-bold tracking-[15px] -translate-x-28 opacity-0 heading-title"
+              >
+                TODOLIST
+              </h1>
               <!-- dark mode switcher -->
               <svg
                 v-if="!darkmode"
                 @click="darkmode = true"
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-7 w-7 text-amber-300"
+                class="h-7 w-7 text-amber-300 theme-icon"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -66,7 +144,7 @@ const filteredTodolist = computed(() => {
                 v-else
                 @click="darkmode = false"
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-7 w-7 text-amber-400"
+                class="h-7 w-7 text-amber-400 theme-icon"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -78,7 +156,7 @@ const filteredTodolist = computed(() => {
               </svg>
             </div>
             <div
-              class="flex bg-white dark:bg-slate-800 pl-2 mt-10 mb-8 rounded-md items-center"
+              class="flex bg-white dark:bg-slate-800 pl-2 mt-10 mb-8 rounded-md items-center opacity-0 scale-0 createTodo"
             >
               <svg
                 @click="todolistStore.checkAllTodos"
@@ -104,7 +182,7 @@ const filteredTodolist = computed(() => {
             </div>
           </header>
           <main
-            class="h-[317px] rounded overflow-auto snap-y snap-mandatory scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-600 dark:scrollbar-thumb-gray-300 dark:hover:scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+            class="h-[317px] mainbox translate-y-28 opacity-0 rounded overflow-auto snap-y snap-mandatory scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-600 dark:scrollbar-thumb-gray-300 dark:hover:scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
           >
             <div
               :class="todolistStore.todolist.length ? 'border-2' : ''"
@@ -114,17 +192,20 @@ const filteredTodolist = computed(() => {
                 v-for="workTodo of filteredTodolist"
                 :key="workTodo.id"
                 :workTodo="workTodo"
+                class="worksTodo"
               />
               <div
                 v-show="todolistStore.todolist.length"
                 class="flex justify-between border-solid border-t border-t-gray-400 dark:border-t-gray-700 text-xs py-3 px-4 cursor-pointer sticky bottom-0 dark:bg-slate-800 bg-white"
               >
-                <p class="text-gray-600 dark:text-gray-300 order-2 md:order-1">
+                <p
+                  class="text-gray-600 dark:text-gray-300 order-2 md:order-1 leftItems"
+                >
                   {{ todolistStore.leftTodos.length }}
                   {{ todolistStore.paralize }} left
                 </p>
                 <ul
-                  class="text-gray-600 dark:text-gray-200 flex gap-3 order-1 md:order-2"
+                  class="text-gray-600 dark:text-gray-200 flex gap-3 order-1 md:order-2 listOptions"
                 >
                   <li
                     class="font-bold"
@@ -151,7 +232,7 @@ const filteredTodolist = computed(() => {
                   </li>
                 </ul>
                 <p
-                  class="text-gray-600 dark:text-gray-300 hidden md:block order-3"
+                  class="text-gray-600 dark:text-gray-300 hidden md:block order-3 clearCompleted"
                   @click="todolistStore.clearDoneItems"
                 >
                   clear colmpleted
