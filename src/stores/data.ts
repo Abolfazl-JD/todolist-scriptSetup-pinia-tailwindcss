@@ -1,24 +1,24 @@
-import { defineStore } from 'pinia'
-import type { TodoItem } from '../types'
+import { defineStore } from "pinia"
+import type { TodoItem } from "../types"
 
 export const todoListData = defineStore({
-  id: 'main',
+  id: "main",
   state: () => ({
     database: null as null | IDBDatabase,
-    todolist : [] as TodoItem[]
+    todolist: [] as TodoItem[],
   }),
   getters: {
-    leftTodos : (state) => state.todolist.filter(todo => !todo.completed),
-    paralize() : 'items' | 'item' {
-      return this.leftTodos.length === 1 ? 'item' : 'items'
-    }
+    leftTodos: (state) => state.todolist.filter((todo) => !todo.completed),
+    paralize(): "items" | "item" {
+      return this.leftTodos.length === 1 ? "item" : "items"
+    },
   },
   actions: {
     createNewTodo(todoTitle: string) {
       const newTodoItem: TodoItem = {
         title: todoTitle,
         completed: false,
-        id : this.todolist.length
+        id: Date.now(),
       }
       this.todolist.push(newTodoItem)
       this.saveData(newTodoItem)
@@ -27,66 +27,63 @@ export const todoListData = defineStore({
     toggleCompleted(todo: TodoItem) {
       todo.completed = !todo.completed
       this.saveData({
-        ...todo
+        ...todo,
       })
     },
 
-    editWorkTodo(todo : TodoItem, newTodoTitle : string) {
+    editWorkTodo(todo: TodoItem, newTodoTitle: string) {
       todo.title = newTodoTitle
       this.saveData({
-        ...todo
+        ...todo,
       })
     },
 
-    removeTodo(deletedItem : TodoItem) {
+    removeTodo(deletedItem: TodoItem) {
       const index = this.todolist.indexOf(deletedItem)
       this.todolist.splice(index, 1)
       this.deleteTodo(deletedItem)
-      this.sortDatabaseIds()
     },
 
     clearDoneItems() {
-      this.todolist = this.todolist.filter(todo => {
+      this.todolist = this.todolist.filter((todo) => {
         if (todo.completed) {
           this.deleteTodo(todo)
-        }
-        else {
+        } else {
           return todo
         }
       })
-      this.sortDatabaseIds()
     },
 
     checkAllTodos() {
-      this.todolist = this.todolist.map(todo => {
+      this.todolist = this.todolist.map((todo) => {
         if (!todo.completed) {
           todo.completed = true
-          this.saveData({...todo})
+          this.saveData({ ...todo })
         }
         return todo
       })
     },
 
-    changeItem(chosenTodo : TodoItem) {
-      let selectedItem = this.todolist.find(todo => todo.id === chosenTodo.id)
+    changeItem(chosenTodo: TodoItem) {
+      let selectedItem = this.todolist.find((todo) => todo.id === chosenTodo.id)
       if (selectedItem) {
         selectedItem.title = chosenTodo.title
         selectedItem.completed = chosenTodo.completed
-        this.saveData({...chosenTodo})
+        this.saveData({ ...chosenTodo })
       }
     },
 
     // pwa methods
-    async getDatabase() : Promise<IDBDatabase> {
+    async getDatabase(): Promise<IDBDatabase> {
       return new Promise((resolve, reject) => {
         if (this.database) {
           resolve(this.database)
         }
 
-        let request = window.indexedDB.open('todomvcDB', 1)
-        request.onerror = event => {
-          console.error('ERROR: unable to open the database', event)
-          reject('ERROR')
+        let request = window.indexedDB.open("todomvcDB", 1)
+        request.onerror = (event) => {
+          console.error("ERROR: unable to open the database", event)
+          reject("ERROR")
         }
         request.onsuccess = () => {
           this.database = request.result
@@ -95,26 +92,26 @@ export const todoListData = defineStore({
 
         request.onupgradeneeded = (event) => {
           let database = request.result
-          database.createObjectStore('todos', {
+          database.createObjectStore("todos", {
             autoIncrement: true,
-            keyPath : 'id'
+            keyPath: "id",
           })
         }
       })
     },
 
-    async getTodoStore() : Promise<TodoItem[]>{
+    async getTodoStore(): Promise<TodoItem[]> {
       this.database = await this.getDatabase()
       return new Promise((resolve, reject) => {
         if (this.database) {
-          const transaction = this.database.transaction('todos', 'readonly')
-          const store = transaction.objectStore('todos')
+          const transaction = this.database.transaction("todos", "readonly")
+          const store = transaction.objectStore("todos")
 
-          let todolist : TodoItem[] = [] 
+          let todolist: TodoItem[] = []
           store.openCursor().onsuccess = (event: any) => {
             const cursor = event.target.result
             if (cursor) {
-              const workTodo : TodoItem = cursor.value
+              const workTodo: TodoItem = cursor.value
               todolist.push(workTodo)
               cursor.continue()
             }
@@ -134,22 +131,21 @@ export const todoListData = defineStore({
       this.todolist = await this.getTodoStore()
     },
 
-    async saveData(todo : TodoItem) {
+    async saveData(todo: TodoItem) {
       this.database = await this.getDatabase()
       return new Promise((resolve, reject) => {
         if (this.database) {
-          const transaction = this.database.transaction('todos', 'readwrite')
-          const store = transaction.objectStore('todos')
+          const transaction = this.database.transaction("todos", "readwrite")
+          const store = transaction.objectStore("todos")
           store.put(todo)
 
           transaction.oncomplete = () => {
-            resolve('item has been successfully saved')
+            resolve("item has been successfully saved")
           }
           transaction.onerror = (event) => {
             reject(event)
           }
         }
-
       })
     },
 
@@ -158,12 +154,12 @@ export const todoListData = defineStore({
 
       return new Promise((resolve, reject) => {
         if (this.database) {
-          const transaction = this.database.transaction('todos', 'readwrite')
-          const store = transaction.objectStore('todos')
+          const transaction = this.database.transaction("todos", "readwrite")
+          const store = transaction.objectStore("todos")
           store.delete(todo.id)
 
           transaction.oncomplete = () => {
-            resolve('item has been successfully deleted')
+            resolve("item has been successfully deleted")
           }
           transaction.onerror = (event) => {
             reject(event)
@@ -171,18 +167,5 @@ export const todoListData = defineStore({
         }
       })
     },
-
-    sortDatabaseIds() {
-      for (let i = 0; i < this.todolist.length; i++) {
-        const workTodo = this.todolist[i]
-        if (workTodo.id !== i) {
-          this.deleteTodo(workTodo)
-          this.saveData({
-            ...workTodo,
-            id : i
-          })
-        }
-      }
-    }
-  }
+  },
 })

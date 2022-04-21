@@ -182,9 +182,11 @@ const filteredTodolist = computed(() => {
             </div>
           </header>
           <main
-            class="h-[317px] mainbox translate-y-28 opacity-0 rounded overflow-auto snap-y snap-mandatory scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-600 dark:scrollbar-thumb-gray-300 dark:hover:scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+            class="h-[317px] mainbox translate-y-28 opacity-0 rounded overflow-y-auto overflow-x-hidden snap-y snap-mandatory scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-600 dark:scrollbar-thumb-gray-300 dark:hover:scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
           >
-            <div
+            <transition-group
+              tag="div"
+              name="todoListItem"
               :class="todolistStore.todolist.length ? 'border-2' : ''"
               class="todolist-items border-solid dark:border-0 border-gray-300 w-full bg-white dark:bg-slate-800 rounded-md dark:shadow-slate-600"
             >
@@ -195,6 +197,7 @@ const filteredTodolist = computed(() => {
                 class="worksTodo"
               />
               <div
+                key="secondChild"
                 v-show="todolistStore.todolist.length"
                 class="flex justify-between border-solid border-t border-t-gray-400 dark:border-t-gray-700 text-xs py-3 px-4 cursor-pointer sticky bottom-0 dark:bg-slate-800 bg-white"
               >
@@ -238,7 +241,7 @@ const filteredTodolist = computed(() => {
                   clear colmpleted
                 </p>
               </div>
-            </div>
+            </transition-group>
           </main>
         </div>
       </div>
@@ -265,4 +268,18 @@ const filteredTodolist = computed(() => {
 
 <style>
 @import "./assets/base.css";
+
+.todoListItem-move {
+  transition: all 0.3s ease;
+}
+
+.todoListItem-leave-to {
+  opacity: 0 !important;
+  transform: translateX(100px) !important;
+}
+
+.todoListItem-enter-active,
+.todoListItem-leave-active {
+  transition: all 0.3s ease;
+}
 </style>
