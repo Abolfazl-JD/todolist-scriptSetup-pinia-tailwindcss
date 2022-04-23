@@ -120,7 +120,7 @@ const filteredTodolist = computed(() => {
             </div>
           </header>
           <main
-            class="h-[317px] mainbox translate-y-28 opacity-0 rounded overflow-y-auto overflow-x-hidden snap-y snap-mandatory scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-600 dark:scrollbar-thumb-gray-300 dark:hover:scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+            class="max-h-[317px] mainbox translate-y-28 opacity-0 rounded overflow-y-auto overflow-x-hidden snap-y snap-mandatory scrollbar-thin scrollbar-track-gray-300 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-700 dark:scrollbar-track-gray-600 dark:scrollbar-thumb-gray-300 dark:hover:scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
           >
             <transition-group
               tag="div"
